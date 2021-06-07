@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div class="container"> 
+		<form action="" method="post">
+			{% csrf_token %}
+			{{ register_form.as_p }}
+			<button class="btn btn-success" type="submit">Зарегистрироваться</button>
+			<p>
+				У вас уже <a href="{% url 'auth' %}">есть</a> аккаунт ?
+			</p>
+		</form>
+	</div>
+{% endblock %}

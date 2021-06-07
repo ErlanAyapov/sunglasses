@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% block content %}
+<br><br><br>
+{% if user.is_staff %}
+  <div class="container">
+    {% if object_list %}
+    <h1 style="text-align: center;">Новые заказы</h1>
+	  {% for order in object_list %}
+	  	{% if request.user == order.user %}
+			{% if order.status == 'Новый заказ' %}
+			  <div class="order-container">
+			  	<div class="order-block clear-fix"> 
+			  		<div class="float-left">
+			  			<h2>ЗАКАЗ: #{{ order.id }}</h2>
+				  		<p>
+				  			<strong>Заказчик: </strong>
+				  			{{ order.first_name }} {{ order.last_name }}
+				  		</p>
+				  		<p>
+				  			<strong>Телефон: </strong>
+				  			{{ order.phone }}
+				  		</p>
+				  		<p>
+				  			<strong>Адрес: </strong>
+				  			{{ order.address }}
+				  		</p>
+				  		<p>
+				  			<strong>Тип заказа: </strong>
+				  			{{ order.buying_type }}
+				  		</p>
+			  		</div>
+			  		<div class="float-left padding-left">
+			  			<details>
+			  				<summary>Коментарий к заказу</summary>
+			  				<p>
+				  				{{ order.comment }}
+				  			</p>
+
+			  			</details>
+			  		</div>
+			  	</div>
+			  	
+			  	<details>
+			  		 <summary style="font-size:22px">Заказанные товары</summary> 
+					  	<div>
+					  		{% for i in order.product.all %}
+					  			<div class="order-product">
+					  				<div class="order-product-image">
+					  					<img src="{{ i.picture }}" width="200">
+					  				</div>
+
+					  				<div class="order-product-description">
+					  					<p>{{ i.title }}</p>
+					  					<p>{{ i.number }}</p>
+					  					<p>{{ i.price }} ТГ</p>
+					  				</div>
+					  			</div>
+					  		{% endfor %}
+					  	</div>
+			  	</details>
+			  	<br>
+			  	<form action="{% url 'order_update' order.id %}" method="post">
+			  		{% csrf_token %}
+			  		<input type="hidden" value="Заказ выполнен" name="status" id="id_status">
+			  		<button type="submit" class="btn btn-success">✔ Заказ выполнен</button>
+			  		<!-- <a href="{% url 'order_detail' order.id %}" class="btn btn-secondary">Подронее</a> -->
+			  	</form>
+			  
+			  </div>
+			
+			{% endif %}
+
+
+		{% endif %}
+	  {% endfor %}
+	  <br>
+	  <hr>
+	  <h1 style="text-align: center;">Оброботанные заказы</h1>
+	  {% for orders in object_list %}
+	  {% if request.user == orders.user %}
+			{% if not orders.status == 'Новый заказ' %}
+			  <div class="order-container">
+			  	<div class="order-block clear-fix"> 
+			  		<div class="float-left">
+			  			<h2>ЗАКАЗ: #{{ orders.id }}</h2>
+				  		<p>
+				  			<strong>Заказчик: </strong>
+				  			{{ orders.first_name }} {{ orders.last_name }}
+				  		</p>
+				  		<p>
+				  			<strong>Телефон: </strong>
+				  			{{ orders.phone }}
+				  		</p>
+				  		<p>
+				  			<strong>Адрес: </strong>
+				  			{{ orders.address }}
+				  		</p>
+				  		<p>
+				  			<strong>Тип заказа: </strong>
+				  			{{ orders.buying_type }}
+				  		</p>
+			  		</div>
+			  		<div class="float-left padding-left">
+			  			<details>
+			  				<summary >Коментарий к заказу</summary>
+			  				<p>
+				  				{{ orders.comment }}
+				  			</p>
+
+			  			</details>
+			  		</div>
+			  	</div>
+			  	
+			  	<details>
+			  		<summary style="font-size:22px">Заказанные товары</summary>
+					  	<div>
+					  		{% for i in orders.product.all %}
+					  			<div class="order-product">
+					  				<div class="order-product-image">
+					  					<img src="{{ i.picture }}" width="200">
+					  				</div>
+
+					  				<div class="order-product-description">
+					  					<p>{{ i.title }}</p>
+					  					<p>{{ i.number }}</p>
+					  					<p>{{ i.price }} ТГ</p>
+					  				</div>
+					  			</div>
+					  		{% endfor %}
+					  	</div>
+			  	</details>
+			  	<br>
+			  	 
+			  	<!--  -->
+			  </div>
+			
+			{% endif %}
+
+
+		{% endif %}
+	  {% endfor %}
+	{% endif %}
+  </div>
+
+{% endif %}
+{% endblock %}

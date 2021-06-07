@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div class="user-container">
+		<div class="auth-form">
+			<p class="head">Авторизация</p>
+			<form action="{% url 'auth' %}" method="post">
+				{% csrf_token %}
+				<input class="form-control" placeholder="@username" type="text" name="username">
+				<div class=".password-block">
+					
+					<button type="button" onclick="if (password.type == 'text') password.type = 'password';else password.type = 'text';"><i class="far fa-eye jsn"></i></button>
+					<input id="password" class="form-control csd" placeholder="Пароль" type="password"  name="password" >
+					
+				</div>
+					
+				</label>
+				<button class="btn btn-success" type="submit">Войти</button>
+			</form>
+		</div>
+	</div>
+<style type="text/css">
+button[type ='button'] {
+  border: 0;
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  text-align: center;
+  margin-right: -26px;
+   
+  z-index: 1;
+  float: left;
+  padding-top: 5px;
+  opacity: 0.8;
+  marging-left: 3px;
+  background: 0;
+}
+button[type ='button'] + input, .jsn + input {
+  padding-left:  29px;
+}
+</style>
+
+ 
+
+{% endblock %}

@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form id="MakeOrder" action="{% url 'make_order' %}" method="POST">{% csrf_token %}</form>
+<form id="AllOrder" action="{% url 'make_order' %}" method="POST">{% csrf_token %}</form>
+<br><br><br>
+<div class="card-section">
+	{% for cart in cart %}
+		{% if cart.user == request.user %}
+			
+		
+		<div class="card-my">
+			<div class="new-arival">
+				<p><strong>{{ cart.product.category }}</strong></p>
+			</div>
+			<!-- <div class="card-title">
+				<h4>Солнечный очки</h4>
+			</div> -->
+			<div class="card-image">
+				<img src="{{ cart.product.picture }}" width="210">
+			</div>
+			<div class="card-description">
+				<p>{{ cart.product.description }}</p>
+			</div>
+			<div class="card-price">
+				<div class="price">
+					<strong>{{ cart.product.price }} ТГ</strong>
+				</div> 
+				<div class="buy">
+					<label>
+						<input name="product" id="id_product" multiple class="form-check-input class_product" type="checkbox" value="{{ cart.product.id }}" onclick ="CheckBox1()" form="MakeOrder">
+						<i class="fab fa-shopify"></i>
+					</label>
+				</div>
+				<!-- <div class="add-cart">
+					<label>
+						<input form="MakeCart" type="hidden" type="text" name="comment" maxlength="1000" required id="id_comment" value="корзина">
+						<input form="MakeCart" type="hidden" name="product" required id="id_product" value="{{ cart.product.id }}">
+						<button form="MakeCart" type="submit"></button>
+						Добавить в корзину <i class="fas fa-cart-arrow-down"></i>
+					</label>
+					
+				</div> -->
+				<input form="AllOrder" type="hidden" name="product" required id="id_product" value="{{ cart.product.id }}">
+			</div>
+		</div>
+		
+	
+		{% endif %}
+	{% endfor %}
+	</div>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+					    <div class="modal-header">
+					        <h5 class="modal-title" id="staticBackdropLabel">Заказать</h5>
+					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					    </div>
+					    <div class="modal-body">
+					    	<div>
+					    		<i class='fas fa-user jsn' aria-hidden="true"></i>
+					      		<input form="MakeOrder" placeholder="Введите имя" class="form-control" type="text" name="first_name" maxlength="255" required id="id_first_name">
+					    	</div>
+					    	<div>
+					    		<i class="fas fa-user-friends jsn" aria-hidden="true"> </i>
+					      		<input form="MakeOrder" placeholder="Введите Фамилия" class="form-control" type="text" name="last_name" maxlength="255" required id="id_last_name">
+					    	</div><i class=""></i>
+					      	<div>
+					    		<i class="fas fa-phone-square-alt jsn"></i>
+					      		<input form="MakeOrder" placeholder="Телефон" class="form-control" type="text" name="phone" maxlength="20" required id="id_phone">
+					    	</div>
+					      	<div>
+					    		<i class="fa fa-address-book-o jsn" aria-hidden="true"></i>
+								<input form="MakeOrder" placeholder="Адресс" class="form-control" type="text" name="address" maxlength="1024" id="id_address">
+					    	</div>
+					      	
+					      <select form="MakeOrder" class="form-select padding-bottom" name="buying_type" id="id_buying_type">
+								  <option value="Самовывоз" selected>Самовывоз</option>
+								  <option value="Доставка">Доставка</option>
+							</select>
+							<textarea form="MakeOrder" placeholder="коментарий к заказу" class="form-control" name="comment" cols="40" rows="10" id="id_comment"></textarea>
+
+							
+
+							<input form="MakeOrder" type="hidden" name="user" required id="id_user" value="1">
+							<input form="MakeOrder" type="hidden" name="customer" required id="id_customer" value="2">
+
+
+					      	<!-- <p>
+					      		<strong>Количество</strong><p id="one">1</p>
+					      	</p>
+							<input type="range" class="form-range" min="20" max="200" oninput="InputR()" step="5" id="r1"> -->
+							
+					    </div>
+					    <div class="modal-footer">
+					        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+					        <button form="MakeOrder" type="submit" class="btn btn-primary">Оставить данные</button>
+					    </div>
+					</div>
+				</div>
+			</div>
+<div id="buy" style="display: none;">
+	<button  type="button" class="btn btn-danger " data-bs-toggle="modal" data-bs-target="#staticBackdrop">Оформить заказ</button>
+</div>
+<!-- <div class="djs">
+	<button type="submit" class="btn btn-success " form="AllOrder">Заказать все товары</button>
+</div> -->
+<style type="text/css">
+
+
+i.jsn, i.jsn {
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  text-align: center;
+  margin-right: -26px;
+   
+  z-index: 1;
+  float: left;
+  padding-top: 5px;
+  opacity: 0.8;
+  padding-left: 3px;
+}
+
+i.jsn + input, .jsn + input {
+  padding-left: 29px;
+}
+.djs {
+		position: fixed;
+		bottom: 1%;
+		left: 1%;
+	}
+</style>
+
+<div>
+  {% if message %}
+  <h1>{{ message }}</h1>
+  {% endif %}
+</div>
+
+{% endblock %}

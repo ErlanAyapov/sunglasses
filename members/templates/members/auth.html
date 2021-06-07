@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div class="user-container">
+		<div class="auth-form">
+			<p class="head">Авторизация</p>
+			<form action="{% url 'auth' %}" method="post">
+				{% csrf_token %}
+				<input class="form-control" placeholder="@username" type="text" name="username">
+					<div class=".password-block">
+						
+						<button type="button" onclick="if (password.type == 'text') password.type = 'password';else password.type = 'text';"><i class="far fa-eye jsn"></i></button>
+						<input id="password" class="form-control csd" placeholder="Пароль" type="password"  name="password" >				
+					</div>		
+				</label>
+				{% if error %}
+					<div class="alert alert-danger" role="alert">
+						{{ error }}
+					</div>
+				{% endif %}
+				<button class="btn btn-success" type="submit">Войти</button>
+			</form>
+		</div> 
+		<div class="register-form">
+			<p style="text-align:center;">Регистрация</p>
+			<form action="{% url 'register' %}" method="post">
+				{% csrf_token %}
+				<input placeholder="@username" class="form-control" type="text" name="username" maxlength="150" autofocus required id="id_username">
+				<input  placeholder="Пароль"class="form-control" type="password" name="password1" autocomplete="new-password" required id="id_password1">
+				<input placeholder="Повторите пароль" class="form-control" type="password" name="password2" autocomplete="new-password" required id="id_password2">
+				<button class="btn btn-success" type="submit">Зарегистрироваться</button>
+			</form>
+		</div>
+	</div>
+<style type="text/css">
+button[type ='button'] {
+  border: 0;
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  text-align: center;
+  margin-right: -26px;
+  z-index: 1;
+  float: left;
+  padding-top: 5px;
+  opacity: 0.8;
+  marging-left: 3px;
+  background: 0;
+}
+button[type ='button'] + input, .jsn + input {
+  padding-left: 29px;
+}
+</style>
+
+ 
+
+{% endblock %}

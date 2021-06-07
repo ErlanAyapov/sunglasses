@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% if request.user.is_authenticated %}
+<div class="container">
+	<!-- <div class="container-aqyl">
+		<h3>Советуем заказать после регитраций, так вы сможете следить за процесом!</h3>
+	</div> -->
+</div>
+{% endif %}
+<form id="MakeOrder" action="{% url 'make_order' %}" method="POST">{% csrf_token %}</form>
+
+
+{% if object_list %}
+	<br>	<br>	<br>
+	
+	<div class="card-section">
+		{% for product in object_list %}
+		<div class="card-my">
+			<div class="new-arival">
+				<p><strong>{{ product.category }}</strong></p>
+			</div>
+			<!-- <div class="card-title">
+				<h4>Солнечный очки</h4>
+			</div> -->
+			<div class="card-image">
+				<img src="{{ product.picture }}" width="210">
+			</div>
+			<div class="card-description">
+				<p>{{ product.description }}</p>
+			</div>
+			<div class="card-price">
+				<div class="price">
+					<strong>{{ product.price }} ТГ</strong>
+				</div> 
+				<div class="buy">
+					<label>
+						<input name="product" id="id_product" multiple class="form-check-input class_product" type="checkbox" value="{{ product.id }}" onclick ="CheckBox1()" form="MakeOrder">
+						<i class="fab fa-shopify"></i>
+					</label>
+				</div>
+				<div class="add-cart">
+					<label>
+						<form id="MakeCart" action="{% url 'cart_add' %}" method="POST">
+							{% csrf_token %}
+							<input type="hidden" name="user" required id="id_user" value="{{ request.user.id }}">
+							<input  type="hidden" type="text" name="comment" maxlength="1000" required id="id_comment" value="корзина">
+							<input  type="hidden" name="product" required id="id_product" value="{{ product.id }}">
+							<button  type="submit"></button>
+							Добавить в корзину <i class="fas fa-cart-arrow-down"></i>
+						</form>
+					</label>
+					
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	</div>
+{% endif %}
+
+
+
+
+	<!-- Modal -->
+			<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+					    <div class="modal-header">
+					        <h5 class="modal-title" id="staticBackdropLabel">Заказать</h5>
+					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					    </div>
+					    <div class="modal-body">
+					    	<div>
+					    		<i class='fas fa-user jsn' aria-hidden="true"></i>
+					      		<input form="MakeOrder" placeholder="Введите имя" class="form-control" type="text" name="first_name" maxlength="255" required id="id_first_name">
+					    	</div>
+					    	<div>
+					    		<i class="fas fa-user-friends jsn" aria-hidden="true"> </i>
+					      		<input form="MakeOrder" placeholder="Введите Фамилия" class="form-control" type="text" name="last_name" maxlength="255" required id="id_last_name">
+					    	</div><i class=""></i>
+					      	<div>
+					    		<i class="fas fa-phone-square-alt jsn"></i>
+					      		<input form="MakeOrder" placeholder="Телефон" class="form-control" type="text" name="phone" maxlength="20" required id="id_phone">
+					    	</div>
+					      	<div>
+					    		<i class="fa fa-address-book-o jsn" aria-hidden="true"></i>
+								<input form="MakeOrder" placeholder="Адресс" class="form-control" type="text" name="address" maxlength="1024" id="id_address">
+					    	</div>
+					      	
+					      <select form="MakeOrder" class="form-select padding-bottom" name="buying_type" id="id_buying_type">
+								  <option value="Самовывоз" selected>Самовывоз</option>
+								  <option value="Доставка">Доставка</option>
+							</select>
+							<textarea form="MakeOrder" placeholder="коментарий к заказу" class="form-control" name="comment" cols="40" rows="10" id="id_comment"></textarea>
+
+							
+
+							<input form="MakeOrder" type="hidden" name="user" required id="id_user" value="1">
+							<input form="MakeOrder" type="hidden" name="customer" required id="id_customer" value="2">
+
+
+					      	<!-- <p>
+					      		<strong>Количество</strong><p id="one">1</p>
+					      	</p>
+							<input type="range" class="form-range" min="20" max="200" oninput="InputR()" step="5" id="r1"> -->
+							
+					    </div>
+					    <div class="modal-footer">
+					        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+					        <button form="MakeOrder" type="submit" class="btn btn-primary">Оставить данные</button>
+					    </div>
+					</div>
+				</div>
+			</div>
+<div id="buy" style="display: none;">
+	<button  type="button" class="btn btn-danger " data-bs-toggle="modal" data-bs-target="#staticBackdrop">Оформить заказ</button>
+</div>
+
+<style type="text/css">
+
+
+i.jsn, i.jsn {
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  text-align: center;
+  margin-right: -26px;
+   
+  z-index: 1;
+  float: left;
+  padding-top: 5px;
+  opacity: 0.8;
+  padding-left: 3px;
+}
+
+i.jsn + input, .jsn + input {
+  padding-left: 29px;
+}
+</style>
+
+<div>
+  {% if message %}
+  <h1>{{ message }}</h1>
+  {% endif %}
+</div>
+
+{% endblock %}
