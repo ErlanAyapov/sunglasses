@@ -71,7 +71,7 @@ header {}
 .slider-frame {
   overflow: hidden;
   height: 100%;
-   
+
 
 }
 @-webkit-keyframes slider_animation {
@@ -362,6 +362,10 @@ header {}
 .add-cart label i {
   color: yellow;
 }
+.about-page h1, .about-page p {
+  text-align: center;
+}
+
 
 @media screen and (max-width: 825px) {
   .user-container {

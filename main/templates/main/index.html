@@ -1,13 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-{% if request.user.is_authenticated %}
-<div class="container">
-	<!-- <div class="container-aqyl">
-		<h3>Советуем заказать после регитраций, так вы сможете следить за процесом!</h3>
-	</div> -->
-</div>
-{% endif %}
+
+
 <form id="MakeOrder" action="{% url 'make_order' %}" method="POST">{% csrf_token %}</form>
 
 
@@ -46,7 +41,11 @@
 							<input type="hidden" name="user" required id="id_user" value="{{ request.user.id }}">
 							<input  type="hidden" type="text" name="comment" maxlength="1000" required id="id_comment" value="корзина">
 							<input  type="hidden" name="product" required id="id_product" value="{{ product.id }}">
-							<button  type="submit"></button>
+							{% if user.is_authenticated %}
+								<button  type="submit"></button>
+							{% else %}
+								<button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"></button>
+							{% endif %}
 							Добавить в корзину <i class="fas fa-cart-arrow-down"></i>
 						</form>
 					</label>
@@ -145,4 +144,35 @@ i.jsn + input, .jsn + input {
   {% endif %}
 </div>
 
+<button >Open modal for @mdo</button>
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@fat">Open modal for @fat</button>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Open modal for @getbootstrap</button> -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Быстрая регистрация</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{% url 'register' %}" id="fast-register">
+          <div class="mb-3">
+            <input placeholder="@username" class="form-control" type="text" name="username" maxlength="150" autofocus required id="id_username">
+          </div>
+          <div class="mb-3">
+          	<input placeholder="Пароль"class="form-control" type="password" name="password1" autocomplete="new-password" required id="id_password1">
+          </div>
+          <div class="mb-3">
+            <input placeholder="Повторите пароль" class="form-control" type="password" name="password2" autocomplete="new-password" required id="id_password2">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <button type="submit" form="fast-register" class="btn btn-success">Зарегистрироваться</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
