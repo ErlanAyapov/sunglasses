@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 
 class MainView(ListView):
 	model = Product
+	ordering = '-id'
 	template_name = 'main/index.html'
 	
 	# def get_context_data(self, **kwargs):
