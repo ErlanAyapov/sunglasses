@@ -1,14 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<div class="container"> 
-		<form action="" method="post">
-			{% csrf_token %}
-			{{ register_form.as_p }}
-			<button class="btn btn-success" type="submit">Зарегистрироваться</button>
-			<p>
-				У вас уже <a href="{% url 'auth' %}">есть</a> аккаунт ?
-			</p>
-		</form>
+	<div class="container">  
+
+		<div class="register-form" style="margin-top: 20vh;">
+			<p style="text-align:center;">Регистрация</p>
+			<form action="{% url 'register' %}" method="post">
+				{% csrf_token %}
+				<input placeholder="@username" class="form-control" type="text" name="username" maxlength="150" autofocus required id="id_username">
+				<input placeholder="Пароль"class="form-control" type="password" name="password1" autocomplete="new-password" required id="id_password1">
+				<input placeholder="Повторите пароль" class="form-control" type="password" name="password2" autocomplete="new-password" required id="id_password2">
+				<button class="btn btn-success" type="submit">Зарегистрироваться</button><br>
+				<div class="alert alert-danger my-style" role="alert">
+					{% if message %}
+						<ul>	
+							<li>Пароль не должен быть слишком похож на другую вашу личную информацию.</li>
+							<li>Ваш пароль должен содержать как минимум 8 символов.</li>
+							<li>Такой пароль часто используется.</li>
+							<li>Пароль не может состоять только из цифр.</li>
+							<li>Введённый пароль слишком похож на имя пользователя.</li>
+							<li>Введённый пароль слишком короткий. Он должен содержать как минимум 8 символов.</li>
+						</ul>
+					{% endif %}
+				</div>
+			</form> 
 	</div>
+
+	
 {% endblock %}
